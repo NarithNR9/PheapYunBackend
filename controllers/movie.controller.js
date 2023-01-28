@@ -1,4 +1,4 @@
-const Movie = require('../models/movie')
+const Movie = require('../models/Movie')
 
 exports.addMovie = async (req, res) => {
   const { title, type, country, genre, episodes, description, imageUrl } =
