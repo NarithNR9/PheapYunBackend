@@ -74,7 +74,7 @@ exports.getMovieByFilter = async (req, res) => {
   const para = {
     filter: data,
   }
-  const movies = await Movie.find({ $and: para['filter'] })
+  const movies = await Movie.find({ $and: para['filter'] }).sort({ createdAt: 'desc' }).limit(10)
   // const movie = await Movie.find({genre: 'Animation'}) 
   if (movies) {
     res.json({ 
