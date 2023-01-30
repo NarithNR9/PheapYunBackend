@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
+
 var current = new Date()
 const timeStamp = new Date(
   Date.UTC(
@@ -39,8 +40,7 @@ const userSchema = mongoose.Schema({
   favourite: [
     {
       movieId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Movie',
+        type: String,
         required: true,
         default: ''
       },

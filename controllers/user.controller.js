@@ -1,5 +1,7 @@
 const User = require('../models/User')
 const bcrypt = require('bcryptjs')
+const mongoose = require('mongoose')
+const Movie = require('../models/Movie')
 
 exports.registerUser = async (req, res) => {
   const { username, email, password, favourite } = req.body
@@ -126,7 +128,36 @@ exports.googleLogin = async (req, res) => {
   }
 }
 
+exports.getFavourites = async (req, res) => {
+  const email = req.params.email
+  const user = await User.findOne({ email: email })
+  const favo = user.favourite
+
+  
+  const favoId = favo.map(({ movieId }) => {
+      return movieId
+    })
+    const records = await Movie.find({ _id: { $in: favoId } })
+
+  records.sort((a,b) => {
+    return favoId.indexOf(a._id.toString()) - favoId.indexOf(b._id.toString()) 
+  })
+  res.json({ favourite: records })
+}
+
+exports.updateFavourites = async (req, res) => {
+  const email = req.body.email
+  const fav = req.body.favourite
+
+  User.findOneAndUpdate({ email: email }, { favourite: fav }, { new: true })
+    .then((fav) => {
+      res.json({ favourite: fav })
+    })
+    .catch((err) => console.log(err))
+}
+
 exports.getUsers = async (req, res) => {
   const user = await User.findOne({ username: 'nr9' }).select('-password')
   console.log(user)
 }
+  
