@@ -68,8 +68,8 @@ exports.getMovieByFilter = async (req, res) => {
 
   // const arrByID = arr.filter(filterByID);
 
-  const { country, type, genre } = req.query
-  const data = [{ country }, { type }, { genre }].filter(filterByNotUndifined)
+  const { country, type, genre, title } = req.query
+  const data = [{ country }, { type }, { genre }, {title: {$regex: title, $options: 'i'}}].filter(filterByNotUndifined)
   const para = {
     filter: data,
   }

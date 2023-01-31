@@ -19,7 +19,7 @@ router.post('/googleLogin', googleLogin)
 router.post('/update', updateProfile)
 
 
-router.get('/', getUsers)
+router.get('/:userId', getUsers)
 
 router.get('/favourite/:email', getFavourites)
 

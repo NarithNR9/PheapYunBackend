@@ -157,7 +157,12 @@ exports.updateFavourites = async (req, res) => {
 }
 
 exports.getUsers = async (req, res) => {
-  const user = await User.findOne({ username: 'nr9' }).select('-password')
-  console.log(user)
-}
+  const user = await User.findById(req.params.userId).select('-password')
+  
+  if (user) {  
+    return res.json(user)
+  } else {
+    return res.json({message: 'Not found'})
+  }
+} 
   
