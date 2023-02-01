@@ -41,11 +41,59 @@ exports.addMovie = async (req, res) => {
     })
   } else {
     res.status(400).json('Invalid user data')
-  } 
+  }
 }
 
-exports.getLatestMovies = async (req, res) => {
+exports.editMovie = async (req, res) => {
+  const { _id, title, type, country, genre, episodes, description } = req.body
 
+  //validate
+  if (!title || !type || !country || !genre || !episodes || !description) {
+    return res.status(400).json({ message: 'Please include all field' })
+  }
+
+  //edit movie
+  const movie = await Movie.findByIdAndUpdate(
+    _id,
+    {
+      title: title,
+      type: type,
+      country: country,
+      genre: genre,
+      episodes: episodes,
+      description: description,
+    },
+    { new: true }
+  )
+
+  if (movie) {
+    res.status(201).json({
+      _id: movie._id,
+      title: movie.title,
+      type: movie.type,
+      country: movie.country,
+      genre: movie.genre,
+      episodes: movie.episodes,
+      description: movie.description,
+      imageUrl: movie.imageUrl,
+    })
+  } else {
+    res.status(400).json('Invalid user data')
+  }
+}
+
+// exports.deleteMovie = async (req, res) => {
+//   const _id = req.body
+
+//   //edit movie
+//   Movie.findOneAndDelete(_id)
+//     .then(() => {
+//       res.json({ message: 'Delete successfully' })
+//     })
+//     .catch((err) => res.json({ message: err }))
+// }
+
+exports.getLatestMovies = async (req, res) => {
   const movie = await Movie.find().sort({ createdAt: 'desc' })
   if (movie) {
     res.json({
@@ -69,24 +117,31 @@ exports.getMovieByFilter = async (req, res) => {
   // const arrByID = arr.filter(filterByID);
 
   const { country, type, genre, title } = req.query
-  const data = [{ country }, { type }, { genre }, {title: {$regex: title, $options: 'i'}}].filter(filterByNotUndifined)
+  const data = [
+    { country },
+    { type },
+    { genre },
+    { title: { $regex: title, $options: 'i' } },
+  ].filter(filterByNotUndifined)
   const para = {
     filter: data,
   }
-  const movies = await Movie.find({ $and: para['filter'] }).sort({ createdAt: 'desc' }).limit(10)
-  // const movie = await Movie.find({genre: 'Animation'}) 
+  const movies = await Movie.find({ $and: para['filter'] })
+    .sort({ createdAt: 'desc' })
+    .limit(10)
+  // const movie = await Movie.find({genre: 'Animation'})
   if (movies) {
-    res.json({ 
-      movies 
-    }) 
-  } else {   
-    res.status(404).json({   
+    res.json({
+      movies,
+    })
+  } else {
+    res.status(404).json({
       message: 'No movies',
     })
   }
-}  
+}
 
-exports.getMovieById = async (req, res) => { 
+exports.getMovieById = async (req, res) => {
   const id = req.params.movieId
   let movie = await Movie.findById(id)
 

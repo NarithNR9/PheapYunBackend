@@ -14,44 +14,43 @@ const timeStamp = new Date(
   )
 )
 
-console.log(timeStamp)
-
-const userSchema = mongoose.Schema({
-  username: {
-    type: String,
-    required: [true, 'Please add a name'],
-  },
-  email: {
-    type: String,
-    required: [true, 'Please add an email'],
-    unique: true,
-  },
-  password: {
-    type: String,
-    default: ''
-  },
-  isAdmin: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
-  imageUrl: {
-    type: String,
-    default: null
-  },
-  favourite: [
-    {
-      movieId: {
-        type: String,
-        required: true,
-        default: ''
-      },
+const userSchema = mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: [true, 'Please add a name'],
     },
-  ],
-  createdAt: {
-    type: Date,
-    default: timeStamp,
+    email: {
+      type: String,
+      required: [true, 'Please add an email'],
+      unique: true,
+    },
+    password: {
+      type: String,
+      default: '',
+    },
+    isAdmin: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    imageUrl: {
+      type: String,
+      default: null,
+    },
+    favourite: [
+      {
+        movieId: {
+          type: String,
+          required: true,
+          default: '',
+        },
+      },
+    ],
   },
-})
+  {
+    timestamps: true,
+  }
+)
 
 module.exports = mongoose.model('User', userSchema)

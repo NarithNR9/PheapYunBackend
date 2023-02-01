@@ -5,9 +5,12 @@ const {
   getLatestMovies,
   getMovieByFilter,
   getMovieById,
+  editMovie,
 } = require('../controllers/movie.controller')
 
 router.post('/', addMovie)
+
+router.post('/edit', editMovie)
 
 router.get('/latest', getLatestMovies)
 

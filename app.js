@@ -2,12 +2,11 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const dotenv = require('dotenv').config()
 const connectDB = require('./config/db')
-const userRoute =require('./routes/user.route')
-const movieRoute =require('./routes/movie.route')
+const userRoute = require('./routes/user.route')
+const movieRoute = require('./routes/movie.route')
 
 const PORT = process.env.PORT || 5000
 
-connectDB()
 const app = express()
 
 app.use((req, res, next) => {
@@ -23,6 +22,6 @@ app.use('/user', userRoute)
 
 app.use('/movie', movieRoute)
 
-app.listen(PORT)
-
- 
+connectDB().then(() => {
+  app.listen(PORT)
+})
