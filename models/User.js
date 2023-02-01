@@ -14,6 +14,8 @@ const timeStamp = new Date(
   )
 )
 
+console.log(timeStamp)
+
 const userSchema = mongoose.Schema({
   username: {
     type: String,

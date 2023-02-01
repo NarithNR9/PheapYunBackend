@@ -46,7 +46,7 @@ exports.addMovie = async (req, res) => {
 
 exports.getLatestMovies = async (req, res) => {
 
-  const movie = await Movie.find().sort({ createdAt: 'desc' }).limit(10)
+  const movie = await Movie.find().sort({ createdAt: 'desc' })
   if (movie) {
     res.json({
       movies: movie,
