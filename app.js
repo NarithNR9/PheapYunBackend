@@ -9,14 +9,14 @@ var cors = require('cors')
 const PORT = process.env.PORT || 5000
 
 const app = express()
-app.use(cors())
+// app.use(cors())
 
-// app.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', '*')
-//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE') // or '*' for all method
-//   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-//   next()
-// })
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', 'https://pheapyun.netlify.app')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE') // or '*' for all method
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+  next()
+})
 
 app.use(bodyParser.json())
 
